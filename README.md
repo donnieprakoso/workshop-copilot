@@ -1,6 +1,10 @@
-## 🚀 Welcome to AWS Copilot Workshop
+## 🚀 Welcome to AWS Copilot Workshop  
   
 In this workshop, you'll learn how to build, release and operate your containerised applications to [Amazon ECS][1] and [AWS Fargate][2] using [AWS Copilot][3].  
+  
+### Tl;dr Get Started!  
+  
+Click here to [Get Started with Labs][4]  
   
 ## 💻 What we are going to build  
   
@@ -10,13 +14,13 @@ In this workshop, we are going to deploy an API to convert a website page into a
   
 Here’s a quick look on what you’re going to build.   
   
-![raw.githubusercontent.com/donnieprakoso/workshop-copilot/main/assets/Event_20211123_MADWorkshop_AWS Copilot.gif][4]  
+![Quick Look][5]  
   
 ### Diagram architecture  
   
 This is the full diagram architecture that we will build in this workshop.   
   
-![raw.githubusercontent.com/donnieprakoso/workshop-copilot/main/assets/Container-ECS-WebToPdf-App.png][5]  
+![Diagram Architecture][6]  
   
 There are 2 main components in this applications, 1) internet facing API, and 2) private worker to process request. The API is responsible to handle to validate and process the initial request. The API then will publish a topic with message "request_received" to Amazon SNS.  
   
@@ -25,7 +29,7 @@ There are 2 main components in this applications, 1) internet facing API, and 2)
 The flow works when we trigger HTTP POST method with JSON payload to the API endpoint `/process`. As the system is running on asynchronous communication between services, we won't get the PDF immediately. The return response from `/process` would be a request ID. In order to get the PDF file, we need to pass the request ID to the `/status/<request_ID>` endpoint. Using that endpoint, we can also check the status of the request.  
   
 To build the application, defining the release pipeline and operate the application, we will be using AWS Copilot. AWS Copilot is an open-source CLI tool that makes it easy for us to run containers on AWS. If you'd like to know more about AWS Copilot, please refer to the   
-[documentation page][6].   
+[documentation page][7].   
   
 To understand how we can build and operate our containerized applications, the workshop is break down into 5 labs. The labs provided in this workshop are structured to build understanding how to use AWS Copilot from ground up.  
   
@@ -85,10 +89,14 @@ In situation that AWS Copilot wasn't able to remove all resources, you need to c
   
 If you have all the requirements needed to run this workshop, now it's time to deploy some apps!  
   
+[Get Started!][8]  
+  
   
 [1]: https://aws.amazon.com/ecs/  
 [2]: https://aws.amazon.com/fargate/  
 [3]: https://aws.github.io/copilot-cli/  
-[4]: https://raw.githubusercontent.com/donnieprakoso/workshop-copilot/main/assets/Event_20211123_MADWorkshop_AWS%20Copilot.gif?token=AALFYDSLCWE3IXCOBV64ULDBOTTNE  
-[5]: https://raw.githubusercontent.com/donnieprakoso/workshop-copilot/main/assets/Container-ECS-WebToPdf-App.png?token=AALFYDXW4KVOFHTETDRCQTLBOTTJS  
-[6]: https://aws.github.io/copilot-cli/  
+[4]: https://github.com/donnieprakoso/workshop-copilot/tree/main/lab1-getting-started  
+[5]: https://gitcdn.link/repo/donnieprakoso/workshop-copilot/main/assets/Event_20211123_MADWorkshop_AWS%20Copilot.gif  
+[6]: https://gitcdn.link/repo/donnieprakoso/workshop-copilot/main/assets/Container-ECS-WebToPdf-App.png  
+[7]: https://aws.github.io/copilot-cli/  
+[8]: https://github.com/donnieprakoso/workshop-copilot/tree/main/lab1-getting-started  
