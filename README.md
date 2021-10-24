@@ -10,14 +10,13 @@ In this workshop, we are going to deploy an API to convert a website page into a
   
 Here’s a quick look on what you’re going to build.   
   
-![Quick Look][1]  
+![raw.githubusercontent.com/donnieprakoso/workshop-copilot/main/assets/Event_20211123_MADWorkshop_AWS Copilot.gif][1]  
   
 ## Diagram architecture  
   
 This is the full diagram architecture that we will build in this workshop.   
   
-![Diagram Architecture][2]  
-  
+![raw.githubusercontent.com/donnieprakoso/workshop-copilot/main/assets/Container-ECS-WebToPdf-App.png][2]  
   
 There are 2 main components in this applications, 1) internet facing API, and 2) private worker to process request. The API is responsible to handle to validate and process the initial request. The API then will publish a topic with message "request_received" to Amazon SNS.  
   
@@ -85,5 +84,5 @@ In situation that AWS Copilot wasn't able to remove all resources, you need to c
 If you have all the requirements needed to run this workshop, now it's time to deploy some apps!  
   
   
-[1]: https://raw.githubusercontent.com/donnieprakoso/workshop-copilot/main/assets/Event_20211123_MADWorkshop_AWS Copilot.gif  
-[2]: https://raw.githubusercontent.com/donnieprakoso/workshop-copilot/main/assets/Container-ECS-WebToPdf-App.png  
+[1]: https://raw.githubusercontent.com/donnieprakoso/workshop-copilot/main/assets/Event_20211123_MADWorkshop_AWS%20Copilot.gif?token=AALFYDSLCWE3IXCOBV64ULDBOTTNE  
+[2]: https://raw.githubusercontent.com/donnieprakoso/workshop-copilot/main/assets/Container-ECS-WebToPdf-App.png?token=AALFYDXW4KVOFHTETDRCQTLBOTTJS  
