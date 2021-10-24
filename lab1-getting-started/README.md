@@ -91,3 +91,9 @@ Upon completion, the service will update the request information to `svc-api` by
 }  
 ```  
   
+## Next Lab  
+  
+Click here to go to the next lab: [Lab 2: Configure and Deploy `svc-api`][1]  
+  
+  
+[1]: https://github.com/donnieprakoso/workshop-copilot/tree/main/lab2-configure-and-deploying-svc-api  

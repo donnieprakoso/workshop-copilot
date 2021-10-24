@@ -279,3 +279,9 @@ Variables
   COPILOT_SERVICE_NAME                  "                   "                 svc-worker  
 ```  
   
+## Next Lab  
+  
+Click here to go to the next lab: [Lab 4: Testing Application`][1]  
+  
+  
+[1]: https://github.com/donnieprakoso/workshop-copilot/tree/main/lab4-testing-app  

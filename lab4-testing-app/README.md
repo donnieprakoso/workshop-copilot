@@ -1,4 +1,4 @@
-# Lab 4: Testing Application
+# Lab 4: Testing Application  
   
 Congrats! At this point, you have deployed all required services as well as configuring them to run properly. In this lab, you’ll learn how to test the application.  
   

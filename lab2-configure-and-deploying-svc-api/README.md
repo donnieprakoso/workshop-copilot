@@ -403,5 +403,10 @@ Variables
   COPILOT_SNS_TOPIC_ARNS                "                   "                 {"requests":"arn:aws:sns:ap-southeast-1:XXXXXXXXXX:test-webtopdf-staging-svc-api-requests"}  
 ```  
   
+## Next Lab  
+  
+Click here to go to the next lab: [Lab 3: Configure and Deploy `svc-worker`][2]  
+  
   
 [1]: https://aws.amazon.com/blogs/containers/amazon-ecs-availability-best-practices/  
+[2]: https://github.com/donnieprakoso/workshop-copilot/tree/main/lab3-configure-and-deploying-svc-worker  
