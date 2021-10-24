@@ -1,10 +1,27 @@
-# Welcome  
+## Welcome  
   
-Welcome to AWS Copilot Workshop. In this workshop, you'll learn how to build, release and operate your containerised applications to Amazon ECS and AWS Fargate using AWS Copilot.  
+Welcome to AWS Copilot Workshop. In this workshop, you'll learn how to build, release and operate your containerised applications to (Amazon ECS)[aws.amazon.com/ecs/] and (AWS Fargate)[aws.amazon.com/fargate/] using (AWS Copilot)[aws.github.io/copilot-cli/]  
   
 ## What we are going to build  
   
-In this workshop, we are going to deploy an API to convert a website page into a PDF. We are using containers to build the application and deploy them into Amazon ECS using AWS Fargate as the computing option.   
+In this workshop, we are going to deploy an API to convert a website page into a PDF. We are using containers to build the application and deploy them into Amazon ECS using AWS Fargate as the computing option.  
+  
+## Show me how it looks like!  
+  
+Here’s a quick look on what you’re going to build.   
+  
+![Quick Look][1]  
+  
+## Diagram architecture  
+  
+This is the full diagram architecture that we will build in this workshop.   
+  
+![Diagram Architecture][2]  
+  
+  
+There are 2 main components in this applications, 1) internet facing API, and 2) private worker to process request. The API is responsible to handle to validate and process the initial request. The API then will publish a topic with message "request_received" to Amazon SNS.  
+  
+## How does it work?  
   
 The flow works when we trigger HTTP POST method with JSON payload to the API endpoint "/process". As the system is running on asynchronous communication between services, we won't get the PDF immediately. The return response from "/process" would be a request ID. In order to get the PDF file, we need to pass the request ID to the "/response" endpoint. We can also check the status of the request by calling "/status".   
   
@@ -12,21 +29,9 @@ To build the application, defining the release pipeline and operate the applicat
   
 To understand how we can build and operate our containerized applications, the workshop is break down into X labs. The labs provided in this workshop are structured to build understanding how to use AWS Copilot from ground up.  
   
-## Diagram architecture  
-  
-This is the full diagram architecture that we will build in this workshop. We will run 2 application environments, staging and production, and each of the environment will have its own release pipeline.   
-  
-There are 2 main components in this applications, 1) internet facing API, and 2) private worker to process request. The API is responsible to handle to validate and process the initial request. The API then will publish a topic with message "request_received" to Amazon SNS.  
-  
-## Show me how it looks like!  
-  
 ## About This Workshop  
   
-This workshop  
-  
-### Navigating The Workshop  
-  
-### Hint  
+This is L100-300 workshop and specifically structured for developers from any levels.  
   
 ## Requirements  
   
@@ -79,4 +84,6 @@ In situation that AWS Copilot wasn't able to remove all resources, you need to c
   
 If you have all the requirements needed to run this workshop, now it's time to deploy some apps!  
   
-
+  
+[1]: https://raw.githubusercontent.com/donnieprakoso/workshop-copilot/main/assets/Event_20211123_MADWorkshop_AWS Copilot.gif  
+[2]: https://raw.githubusercontent.com/donnieprakoso/workshop-copilot/main/assets/Container-ECS-WebToPdf-App.png  
