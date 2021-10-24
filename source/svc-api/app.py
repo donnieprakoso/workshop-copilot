@@ -90,7 +90,8 @@ def status(request_id):
             return jsonify(response), 204
 
     except:
-        logger.exception("Error on getting status for request_ID: {}".format(request_id), exc_info=True)
+        logger.exception("Error on getting status for request_ID: {}".format(
+            request_id), exc_info=True)
         return jsonify({"error": "error"}), 500
 
 
@@ -131,14 +132,7 @@ def process():
         resp_sns = sns_client.publish(
             TopicArn=SNS_ARN["requests"],
             Message=json.dumps(
-                {"payload": {"request_ID": request_id, "request_url": req["request_url"]}}),
-            MessageAttributes={
-                "event": {
-                    "DataType": "String",
-                    "StringValue": "request_pdf_received"
-                }
-            }
-        )
+                {"payload": {"request_ID": request_id, "request_url": req["request_url"]}}))
         logger.info(resp_sns)
         return jsonify({"request_ID": request_id}), 200
 
