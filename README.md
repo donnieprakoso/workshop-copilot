@@ -80,7 +80,7 @@ This workshop uses AWS services that are mostly covered by the Free Tier allowan
 Please follow the steps outlined below to clean up all resources:  
   
     1.    Go to your AWS Copilot application folder  
-    2.    Run `copilot delete`  
+    2.    Run `copilot app delete`  
     3.    Follow the instructions  
    
 In situation that AWS Copilot wasn't able to remove all resources, you need to check your AWS CloudFormation dashboard and manually delete the stack(s).  
