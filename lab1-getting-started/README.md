@@ -2,7 +2,7 @@
   
 In this lab, we’ll prepare everything needed to deploy and operate the application.   
   
-As this workshop objective is to help you understand how to build and operate your containers using AWS Copilot, throughout the labs you are expected to use AWS Copilot CLI as well as making some required changes in the manifest files (or even source code).  
+As this workshop objective is to help you understand how to build and operate your containers using AWS Copilot, throughout the labs you are expected to use AWS Copilot CLI as well as making some required changes in the infrastructure-as-code (`manifest.yml`) and source code files.  
   
 ## Task 1: Clone Github Repo  
   
