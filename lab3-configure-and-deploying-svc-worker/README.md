@@ -96,7 +96,7 @@ In this task, you will need to evaluate the code on how that you can get the env
   
 This task requires NO action from your end. You only need to evaluate on how to use the environment variable so `svc-worker` can do polling to the queue and process the request.  
   
-1. Open `svc-worker/app.py`  
+1. Open `svc-worker-pdf/app.py`  
 2. In the beginning of the code, after imports, you will see following line:  
   
 ```python  
@@ -105,7 +105,7 @@ SQS_URI = os.getenv("COPILOT_QUEUE_URI")
   
 To retrieve the environment variable, we use the `os.getenv()` function.  
   
-4. Go to ` receive_queue_message()` function  
+4. Go to `receive_queue_message()` function  
 5. Evaluate following lines:  
   
 ```python  
@@ -126,7 +126,7 @@ pdfkit.from_url(data['request_url'], fileoutput_path)
   
 Above lines are the routines to process the requested URL into a PDF. The application uses `pdfkit` library, a wrapper to `wkhtmltopdf`. You can refer to the Dockerfile in `svc-worker` to know more on including `wkhtmltopdf` into the container image.   
   
-6. Go to ` delete_queue_message() `  
+6. Go to `delete_queue_message() `  
 7. Evaluate following lines:  
   
 ```python  
@@ -189,7 +189,7 @@ S3_BUCKET = os.getenv("S3PDFREQUESTS_NAME")
   
 To retrieve the environment variable, we use the `os.getenv()` function.  
   
-4. Go to ` upload_to_s3()` function  
+4. Go to `upload_to_s3()` function  
 5. Evaluate following lines:  
   
 ```python  
@@ -200,7 +200,6 @@ args = {'ServerSideEncryption': 'AES256'}
 s3_client = boto3.client("s3", region_name=AWS_REGION)  
 s3_resp = s3_client.upload_file(filepath, bucket, key, ExtraArgs=args)  
 url = s3_client.generate_presigned_url('get_object', ExpiresIn=3600, Params={'Bucket': bucket, 'Key': key})  
-  
 ```  
 This is the function to upload the PDF (located in `/tmp`) folder. We also provide a secure way to upload the file by setting the `ServerSideEncryption`.   
 Once the file is successfully uploaded, we generate the URL so we can access it. In this case, the presigned URL is set to 3600 seconds. You are welcome to adjust this based on your needs.  
@@ -209,7 +208,7 @@ Once the file is successfully uploaded, we generate the URL so we can access it.
   
 When `svc-worker` finished processing the request, it also requires to update the status of the request back to `svc-api`. To do this, we need to have the endpoint of `svc-api` so `svc-worker` able to call the API with HTTP protocol.   
   
-The `svc-worker` can call the `svc-api` from the public address. However, that’s not recommended as the connection needs to go through the internet. To be able calling the `svc-api` (or any other services) locally, we need to implement Service Discovery.   
+The `svc-worker` can call the `svc-api` from the public address. However, that’s not recommended as the connection needs to go through the internet. To be able calling the `svc-api` (or any other services) locally, we need to implement [Service Discovery](https://aws.github.io/copilot-cli/docs/developing/service-discovery/).   
   
 Service Discovery is a way of letting services discover and connect with each other. Copilot leverages Amazon ECS Service Discovery feature and automatically created the variable called ` COPILOT_SERVICE_DISCOVERY_ENDPOINT` for each service. We can use this variable to call `svc-api` from `svc-worker`.   
   
