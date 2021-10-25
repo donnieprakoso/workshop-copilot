@@ -2,34 +2,25 @@
   
 In this lab, we are going to configure and deploy `svc-api` as the public facing API to interact with our application.  
   
-## Task 1: Initialise Application  
+## Task 1: Initialize Application  
   
 To get started to deploy the applications, we need to initialize a new Copilot application. This would be the first task.  
   
 - Open terminal  
 - Navigate to `source/` folder  
-- Run `copilot app init`  
+- Run `copilot init`  
   
 This command creates a new application within the directory that will contain your services. When you run this command, Copilot will take you to a step-by-step guide by asking you questions.   
   
 Follow the instructions below to complete this task:  
   
-- Create a new application  
+- Naming the [application](https://aws.github.io/copilot-cli/docs/concepts/applications/)
 ```  
-Would you like to use one of your existing applications? (Y/n) n  
-```  
-  
-- Naming the application  
-```  
-Use existing application: No  
-  
-Ok, let's create a new application then.  
 What would you like to name your application? [? for help] test-webtopdf  
 ```  
   
-- Choosing Load Balanced Web Service  
+- Choosing [Load Balanced Web Service](https://aws.github.io/copilot-cli/docs/concepts/services/#load-balanced-web-service)
 ```  
-Use existing application: No  
 Application name: test-webtopdf  
   
   Which workload type best represents your architecture?  [Use arrows to move, type to filter, ? for more help]  
@@ -40,7 +31,6 @@ Application name: test-webtopdf
   
 - Naming the service  
 ```  
-Use existing application: No  
 Application name: test-webtopdf  
 Workload type: Load Balanced Web Service  
   
@@ -49,7 +39,6 @@ What do you want to name this Load Balanced Web Service? [? for help] svc-api
   
 - Selecting the Dockerfile  
 ```  
-Use existing application: No  
 Application name: test-webtopdf  
 Workload type: Load Balanced Web Service  
 Service name: svc-api  
@@ -61,7 +50,6 @@ Service name: svc-api
 - Don’t create an environment. AWS Copilot will create the application along for the first service: `svc-api` . At the end of the process, when Copilot asks if you’d like to deploy a test environment, choose “N (no)”. We are going to manually create the environment in the next task.  
   
 ```  
-Use existing application: No  
 Application name: test-webtopdf  
 Workload type: Load Balanced Web Service  
 Dockerfile: svc-api/Dockerfile  
@@ -83,14 +71,14 @@ All right, you're all set for local development.
 Would you like to deploy a test environment? [? for help] (y/N) N  
 ```  
   
-- Congrats! You’ve successfully created a new Copilot application and a service. You'll notice that AWS Copilot created a manifest file for your service with path `copilot/svc-api/manifest.yml`.  
+- Congrats! You’ve successfully created a new Copilot application and a service. You'll notice that AWS Copilot created a manifest file service with path `copilot/svc-api/manifest.yml`.  
 - Please proceed to the next task.  
   
 ## Task 2: Create environment — staging  
   
 Link: [aws.amazon.com/blogs/containers/amazon-ecs-availability-best-practices/][1]  
   
-In this task, we are going to create an environment. You can create an environment upon `copilot app init` execution. However, we are going to separate that particular task so we know how to manually create an environment as well as understanding few important flags.   
+In this task, we are going to create an environment. You can create an environment upon `copilot init` execution. However, we are going to separate that particular task so we know how to manually create an environment as well as understanding few important flags.   
   
 - Open terminal  
 - Navigate to `source/` folder  
