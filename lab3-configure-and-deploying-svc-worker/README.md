@@ -211,7 +211,7 @@ When `svc-worker` finished processing the request, it also requires to update th
   
 The `svc-worker` can call the `svc-api` from the public address. However, that’s not recommended as the connection needs to go through the internet. To be able calling the `svc-api` (or any other services) locally, we need to implement Service Discovery.   
   
-Service Discovery is a way of letting services discover and connect with each other. Copilot leverages Amazon ECS Service Discovery feature and automatically created the variable called ` COPILOT_SERVICE_DISCOVERY_ENDPOINT` for each service. We can use this variable to call `svc-api` from `svc-worker`.   
+Service Discovery is a way of letting services discover and connect with each other. Copilot leverages Amazon ECS Service Discovery feature and automatically created the variable called `COPILOT_SERVICE_DISCOVERY_ENDPOINT` for each service. We can use this variable to call `svc-api` from `svc-worker`.   
   
 In this task, you’ll learn how to retrieve and call `svc-api` using the endpoint we retrieve from `COPILOT_SERVICE_DISCOVERY_ENDPOINT`.   
   
@@ -219,17 +219,19 @@ In this task, you’ll learn how to retrieve and call `svc-api` using the endpoi
 2. In the beginning of the code, after imports, you will see following line:  
   
 ```python  
-SVC_API_ENDPOINT = os.getenv("SVC_API_ENDPOINT")  
+COPILOT_SERVICE_DISCOVERY_ENDPOINT = os.getenv("COPILOT_SERVICE_DISCOVERY_ENDPOINT")
 ```  
   
-3. Go to ` update_request_status` function   
+3. Go to the `update_request_status` function   
 4. Evaluate the code below:  
   
-```python  
-req = requests.post("{}/status".format(SVC_API_ENDPOINT), json=data)  
+```python
+svc_api_endpoint = f"http://svc-api.{COPILOT_SERVICE_DISCOVERY_ENDPOINT}:8081"
+...
+req = requests.post("{}/status".format(svc_api_endpoint), json=data) 
 ```  
   
-As you see, once that we have the API endpoint for `svc-api`, we’re able to invoke the API endpoint as what we usually trigger any other APIs.  
+As you can see, we're able to reach the `svc-api` by leveraging the `COPILOT_SERVICE_DISCOVERY_ENDPOINT` environment variable.
   
 ## Task 8: Deploy svc-worker to staging environment  
   

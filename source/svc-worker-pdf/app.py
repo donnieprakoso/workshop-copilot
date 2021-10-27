@@ -14,7 +14,7 @@ AWS_REGION = os.getenv("AWS_REGION")
 SQS_URI = os.getenv("COPILOT_QUEUE_URI")
 S3_BUCKET = os.getenv("S3PDFREQUESTS_NAME")
 S3_KEY_OUTPUT_PROCESSED = os.getenv("S3_KEY_OUTPUT_PROCESSED")
-SVC_API_ENDPOINT = os.getenv("SVC_API_ENDPOINT")
+COPILOT_SERVICE_DISCOVERY_ENDPOINT = os.getenv("COPILOT_SERVICE_DISCOVERY_ENDPOINT")
 logger = logging.getLogger()
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s: %(levelname)s: %(message)s')
@@ -33,9 +33,10 @@ def create_directory(path):
 
 
 def update_request_status(data):
+    svc_api_endpoint = f"http://svc-api.{COPILOT_SERVICE_DISCOVERY_ENDPOINT}:8081"
     logger.info(
-        "Sending update to svc-api endpoint {} with data: {}".format(SVC_API_ENDPOINT, data))
-    req = requests.post("{}/status".format(SVC_API_ENDPOINT), json=data)
+        "Sending update to svc-api endpoint {} with data: {}".format(svc_api_endpoint, data))
+    req = requests.post("{}/status".format(svc_api_endpoint), json=data)
 
 
 def upload_to_s3(filepath):
