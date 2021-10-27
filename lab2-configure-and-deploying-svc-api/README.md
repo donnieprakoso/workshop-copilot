@@ -173,9 +173,22 @@ environments:
   staging:  
     variables:  
       AWS_REGION: ap-southeast-1  
-```  
-  
-## Task 4: Add SNS Topic to svc-api  
+```
+
+## Task 4: Configure health check endpoint
+
+In this task, you will configure the health check endpoint that will be used to determine whether or not the ECS task that is deployed is healthy. The `svc-api` exposes a health check endpoint on the path `GET /ping`.
+
+- Open `copilot/svc-api/manifest.yml`
+- Replace the `http` section with:
+
+```
+http:
+  path: '/'
+  healthcheck: '/ping'
+```
+
+## Task 5: Add SNS Topic to svc-api  
   
 In this task, we will begin the first stage on implementing Pub/Sub architecture for our application with AWS Copilot. The implementation of Pub/Sub consists of Amazon SNS Topic and Amazon SQS Queue creation. We will start to add Amazon SNS Topic in this task and on the next lab, when we configure the `svc-worker` we will add integration for SQS.   
   
@@ -190,7 +203,7 @@ publish:
   
 With above lines, we define an Amazon SNS Topic called `requests`. When we deploy this service, AWS Copilot will create an environment variable called `COPILOT_SNS_TOPIC_ARNS`. From there, we need to configure our application to retrieve the Amazon SNS Topic ARN by loading the environment variable.  
   
-## Task 5: Modify svc-api to add COPILOT_SNS_TOPIC_ARNS  
+## Task 6: Modify svc-api to add COPILOT_SNS_TOPIC_ARNS  
   
 In this task, you will need to evaluate the code on how that you can get the environment variable called `COPILOT_SNS_TOPIC_ARNS` to retrieve the Amazon SNS Topic ARNs.   
   
@@ -227,7 +240,7 @@ To publish the message into Amazon SNS Topic, we use `publish()` function from `
   
 To learn more about Message Filtering on Amazon SNS, please visit this [documentation link]( [docs.aws.amazon.com/sns/latest/dg/sns-message-filtering.html][1] ). </del>  
   
-## Task 6: Add DynamoDB to svc-api  
+## Task 7: Add DynamoDB to svc-api  
   
 With AWS Copilot, you can also add database and Amazon S3 bucket for your service. The `copilot storage` command will create a Cloudformation template into `addons` folder for respective service.   
   
@@ -317,7 +330,7 @@ For example, in JavaScript you can write `const storageName = process.env.PDFREQ
   
 - Note the environment variable name: `PDFREQUESTS_NAME`  
   
-## Task 7: Modify svc-api to add DynamoDB Table  
+## Task 8: Modify svc-api to add DynamoDB Table  
   
 As we just configured a DynamoDB table for `svc-api` service, in this task you will need to evaluate how to use the environment variable so we can interact with DynamoDB Table.  
   
@@ -342,7 +355,7 @@ def save_request_received(data):
   
 In this function, we are using the environment variable to specify the table name we need to interact with.  
   
-## Task 8: Deploy svc-api to staging environment  
+## Task 9: Deploy svc-api to staging environment  
   
 In this task, you’ll deploy the `svc-api` into the `staging` environment. To deploy the `svc-api`, you   
   
@@ -356,7 +369,7 @@ As we only have an environment, Copilot will automatically deploy to the `stagin
   
 This process requires roughly 6-8 mins to complete. It’s time to have a break ☕️.  
   
-## Task 9: Check the svc-api environment  
+## Task 10: Check the svc-api environment  
   
 In this task, you’ll learn how to get the details of the `svc-api`. Once that you have the service deployed, you can see the details of the service by running `copilot svc show` command.   
   
