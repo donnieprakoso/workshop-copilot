@@ -10,11 +10,11 @@ To get all the source code we’ll be using in this workshop, you need to clone 
 - Open your terminal  
 - If you’re using SSH, do a Git clone by running this command:  
 ```bash  
-    git clone git@github.com:donnieprakoso/workshop-eventDrivenMicroservices.git  
+    git clone git@github.com:donnieprakoso/workshop-copilot.git
 ```  
 - If you’re using HTTPS, Git clone by running following command:  
 ```bash  
-    git clone https://github.com/donnieprakoso/workshop-eventDrivenMicroservices.git  
+    git clone https://github.com/donnieprakoso/workshop-copilot.git
 ```  
   
 The source code for the application is located in `source/` folder. You’ll be using the source code provided.  
