@@ -77,13 +77,7 @@ Otherwise, you need to follow the instructions listed on this page [https://gith
   
 This workshop uses AWS services that are mostly covered by the Free Tier allowance - ONLY if your account is less than 12 months old. For accounts passed the free tier eligibility, it may incur some costs. To minimize the cost, make sure you **delete resources used in this workshop when you are finished**.  
   
-Please follow the steps outlined below to clean up all resources:  
-  
-    1.    Go to your AWS Copilot application folder  
-    2.    Run `copilot delete`  
-    3.    Follow the instructions  
-   
-In situation that AWS Copilot wasn't able to remove all resources, you need to check your AWS CloudFormation dashboard and manually delete the stack(s).  
+Please refer to Lab 5: Cleaning Up for more information.
   
 ## 💻 Let's Get Started!  
   
