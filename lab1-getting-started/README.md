@@ -7,12 +7,16 @@ As this workshop objective is to help you understand how to build and operate yo
 ## Task 1: Clone Github Repo  
   
 To get all the source code we’ll be using in this workshop, you need to clone this Github repo.   
+
 - Open your terminal  
 - If you’re using SSH, do a Git clone by running this command:  
+
 ```bash  
     git clone git@github.com:donnieprakoso/workshop-copilot.git 
 ```  
+
 - If you’re using HTTPS, Git clone by running following command:  
+
 ```bash  
     git clone https://github.com/donnieprakoso/workshop-copilot.git
 ```  
@@ -49,7 +53,7 @@ The flow starts whenever a client trigger `/process` with POST method along with
   
 ```json  
 {  
-    "request_url": "https://aws.amazon.com/fargate"  
+    "request_url": "https://aws.github.io/copilot-cli/"  
 }  
 ```  
   
