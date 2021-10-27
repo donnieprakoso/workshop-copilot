@@ -15,11 +15,13 @@ This command creates a new application within the directory that will contain yo
 Follow the instructions below to complete this task:  
   
 - Naming the [application](https://aws.github.io/copilot-cli/docs/concepts/applications/)
+
 ```  
 What would you like to name your application? [? for help] test-webtopdf  
 ```  
   
 - Choosing [Load Balanced Web Service](https://aws.github.io/copilot-cli/docs/concepts/services/#load-balanced-web-service)
+
 ```  
 Application name: test-webtopdf  
   
@@ -30,6 +32,7 @@ Application name: test-webtopdf
 ```  
   
 - Naming the service  
+
 ```  
 Application name: test-webtopdf  
 Workload type: Load Balanced Web Service  
@@ -38,6 +41,7 @@ What do you want to name this Load Balanced Web Service? [? for help] svc-api
 ```  
   
 - Selecting the Dockerfile  
+
 ```  
 Application name: test-webtopdf  
 Workload type: Load Balanced Web Service  
@@ -47,7 +51,9 @@ Service name: svc-api
   > svc-api/Dockerfile  
 ```  
   
-- Don’t create an environment. AWS Copilot will create the application along for the first service: `svc-api` . At the end of the process, when Copilot asks if you’d like to deploy a test environment, choose “N (no)”. We are going to manually create the environment in the next task.  
+- Don’t create an environment yet. 
+
+AWS Copilot will create the application along for the first service: `svc-api`. At the end of the process, when Copilot asks if you’d like to deploy a test environment, choose “N (no)”. We are going to manually create the environment in the next task.  
   
 ```  
 Application name: test-webtopdf  
@@ -71,14 +77,13 @@ All right, you're all set for local development.
 Would you like to deploy a test environment? [? for help] (y/N) N  
 ```  
   
-- Congrats! You’ve successfully created a new Copilot application and a service. You'll notice that AWS Copilot created a manifest file service with path `copilot/svc-api/manifest.yml`.  
-- Please proceed to the next task.  
+### Congrats! 
+
+You’ve successfully created a new Copilot application and a service. You'll notice that AWS Copilot created a manifest file service with path `copilot/svc-api/manifest.yml`.  
   
 ## Task 2: Create environment — staging  
   
-Link: [aws.amazon.com/blogs/containers/amazon-ecs-availability-best-practices/][1]  
-  
-In this task, we are going to create an environment. You can create an environment upon `copilot init` execution. However, we are going to separate that particular task so we know how to manually create an environment as well as understanding few important flags.   
+  In this task, we are going to create an environment. You can create an environment upon `copilot init` execution. However, we are going to separate that particular task so we know how to manually create an environment as well as understanding few important flags.   
   
 - Open terminal  
 - Navigate to `source/` folder  
@@ -86,13 +91,15 @@ In this task, we are going to create an environment. You can create an environme
   
 Follow the instructions below to complete this task:  
   
-- Naming the environment  
+- Naming the environment
+
+In this step, we will name the environment as `staging`. 
   
 ```  
 What is your environment's name? [? for help] staging  
 ```  
   
-- Use default profile  
+- Use the `default` profile  
   
 ```   
 Which credentials would you like to use to create staging?  [Use arrows to move, type to filter, ? for more help]  
@@ -100,7 +107,7 @@ Which credentials would you like to use to create staging?  [Use arrows to move,
   > [profile default]  
 ```  
   
-- Use default configuration with new VPC  
+- Use default configuration with a new VPC  
   
 ```  
 Credential source: [profile default]  
@@ -115,7 +122,7 @@ Credential source: [profile default]
     No, I'd like to import existing resources (VPC, subnets).  
 ```  
   
-Creating the environment with a new VPC in 2 AZs, 2 public subnets and 2 private subnets is one of the best practice. For more information, you can read the blog titled [“Amazon ECS availability best practices”]( https://aws.amazon.com/blogs/containers/amazon-ecs-availability-best-practices/).   
+Creating the environment with a new VPC in 2 AZs, 2 public subnets and 2 private subnets is one of the best practice. For more information, you can read the blog titled [“Amazon ECS availability best practices”](https://aws.amazon.com/blogs/containers/amazon-ecs-availability-best-practices/).   
   
 However, you also have the option to import existing resource.   
 If you’d like to import existing resource, you will need the VPC ID. To get the VPC ID using `aws cli`, use following command:  
@@ -124,7 +131,9 @@ If you’d like to import existing resource, you will need the VPC ID. To get th
 aws ec2 describe-vpcs --filters Name=isDefault,Values=true --query 'Vpcs[0].VpcId'  
 ```  
   
-- Copilot will create all required resources for the environment. At the end of the process, you will see following outputs.   
+- Copilot will create all required resources for the new environment. 
+
+At the end of the process, you will see following outputs.   
   
 ```  
 Credential source: [profile default]  
@@ -147,7 +156,9 @@ Default environment configuration? Yes, use default.
 ✔ Created environment staging in region ap-southeast-1 under application test-webtopdf.  
 ```  
   
-- Congrats! You’ve successfully created an environment. Please proceed to the next task.  
+### Congrats! 
+
+You’ve successfully created an environment.
   
 ## Task 3: Add environment variable AWS_REGION  
   
@@ -197,8 +208,8 @@ In this task, you will need to evaluate the code on how that you can get the env
   
 This task requires NO action from your end. You only need to evaluate on how to use the environment variable so `svc-api` can publish the message to the respective topic.  
   
-1. Open `svc-api/app.py`  
-2. In the beginning of the code, after imports, you will see following line:  
+- Open `svc-api/app.py`  
+- In the beginning of the code, after imports, you will see following line:  
   
 ```python  
 SNS_ARN = json.loads(os.getenv('COPILOT_SNS_TOPIC_ARNS'))  
@@ -212,8 +223,8 @@ To retrieve the environment variable, we use the `os.getenv()` function. Further
 }  
 ```  
   
-4. Go to `process` function  
-5. Evaluate following lines:  
+- Go to `process` function  
+- Evaluate following lines:  
   
 ```python  
 resp_sns = sns_client.publish(  
@@ -223,11 +234,7 @@ resp_sns = sns_client.publish(
 ```  
   
 To publish the message into Amazon SNS Topic, we use `publish()` function from `sns_client` object.   
-  
-<del>For this application, we are using Message Filtering. The `MessageAttributes` field includes attributes `event` with a string value `request_pdf_received`. With this filter policy, we can let our `svc-worker` to receive a subset of the messages.  
-  
-To learn more about Message Filtering on Amazon SNS, please visit this [documentation link]( [docs.aws.amazon.com/sns/latest/dg/sns-message-filtering.html][1] ). </del>  
-  
+    
 ## Task 7: Add DynamoDB to svc-api  
   
 With AWS Copilot, you can also add database and Amazon S3 bucket for your service. The `copilot storage` command will create a Cloudformation template into `addons` folder for respective service.   
@@ -236,7 +243,9 @@ In this task, you’ll learn how to add Amazon DynamoDB for `svc-api`.
   
 - Open terminal  
 - Navigate to `source/` folder  
-- Run `copilot storage init` command. This will trigger guided experience and please follow the instructions below:  
+- Run `copilot storage init` command. 
+
+This will trigger guided experience and please follow the instructions below:  
   
 - Selecting service `svc-api`  
   
@@ -299,7 +308,6 @@ Would you like to add a sort key to this table? [? for help] (y/N) N
 ```  
   
 Copilot will create the Cloudformation template as an addon with following path: `copilot/svc-api/addons/pdf-requests.yml`.   
-  
 You’ll see a similar output from Copilot at the end of this process.  
   
 ```  
@@ -316,7 +324,7 @@ For example, in JavaScript you can write `const storageName = process.env.PDFREQ
   - Run `copilot deploy --name svc-api` to deploy your storage resources.  
 ```  
   
-- Note the environment variable name: `PDFREQUESTS_NAME`  
+Note the environment variable name for Amazon DynamoDB: `PDFREQUESTS_NAME`  
   
 ## Task 8: Modify svc-api to add DynamoDB Table  
   
@@ -403,6 +411,30 @@ Variables
   COPILOT_SERVICE_NAME                  "                   "                 svc-api  
   COPILOT_SNS_TOPIC_ARNS                "                   "                 {"requests":"arn:aws:sns:ap-southeast-1:XXXXXXXXXX:test-webtopdf-staging-svc-api-requests"}  
 ```  
+
+## Task 11: Show health status for the svc-api
+
+You can also quickly check the health status for your deployed service. 
+
+- Open terminal 
+- Run `copilot svc status --name svc-api`
+
+In this workshop, we are only deploying to a single environment. If you have multiple services and multiple environments, Copilot will ask you which service and environment you'd like to check. 
+
+Once you executed the command, you'll see similar output:
+
+```
+Task Summary
+
+  Running   ██████████  1/1 desired tasks are running
+  Health    ██████████  1/1 passes HTTP health checks
+
+Tasks
+
+  ID        Status      Revision    Started At  HTTP Health
+  --        ------      --------    ----------  -----------
+  f94195f9  RUNNING     20          1 hour ago  HEALTHY
+```
   
 ## Next Lab  
   
