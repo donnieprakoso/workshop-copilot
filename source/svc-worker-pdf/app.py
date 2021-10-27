@@ -13,7 +13,6 @@ import requests
 AWS_REGION = os.getenv("AWS_REGION")
 SQS_URI = os.getenv("COPILOT_QUEUE_URI")
 S3_BUCKET = os.getenv("S3PDFREQUESTS_NAME")
-S3_KEY_OUTPUT_PROCESSED = os.getenv("S3_KEY_OUTPUT_PROCESSED")
 SVC_API_ENDPOINT = os.getenv("SVC_API_ENDPOINT")
 logger = logging.getLogger()
 logging.basicConfig(level=logging.INFO,
@@ -41,7 +40,7 @@ def update_request_status(data):
 def upload_to_s3(filepath):
     filename = os.path.basename(filepath)
     bucket = S3_BUCKET
-    key = os.path.join(S3_KEY_OUTPUT_PROCESSED, filename)
+    key = os.path.join("/tmp/images/requests/", filename)
 
     args = {'ServerSideEncryption': 'AES256'}
     s3_client = boto3.client("s3", region_name=AWS_REGION)
