@@ -87,7 +87,7 @@ def status(request_id):
         else:
             response = {
                 "request_status": data['request_status'], "request_completed": data['request_completed']}
-            return jsonify(response), 204
+            return jsonify(response), 200
 
     except:
         logger.exception("Error on getting status for request_ID: {}".format(
