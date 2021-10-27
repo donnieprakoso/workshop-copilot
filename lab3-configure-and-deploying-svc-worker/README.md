@@ -4,8 +4,6 @@ In this lab, we are going to deploy a Worker Service, called `svc-worker` to com
   
 ## Task 1: Initialize svc-worker  
   
-Priority: 1  
-  
 In this task, you’re going to deploy `svc-worker` as a Worker Service.   
   
 - Open terminal  
@@ -14,7 +12,7 @@ In this task, you’re going to deploy `svc-worker` as a Worker Service.
   
 Follow instructions below to complete the task  
   
-- Choose **Worker Service***   
+- Choose **Worker Service**
   
 ```  
 Which service type best represents your service's architecture?  [Use arrows to move, type to filter, ? for more help]  
@@ -32,7 +30,7 @@ Service type: Worker Service
   What do you want to name this Worker Service? [? for help] svc-worker  
 ```  
   
-- Select the Dockerfile in `svc-worker-pdf/` folder  
+-  Select the Dockerfile in `svc-worker-pdf/` folder  
   
 ```  
 Service type: Worker Service  
@@ -44,7 +42,9 @@ Service type: Worker Service
     Use an existing image instead  
 ```  
   
-- Wait until the process is finished. At the end of the process, Copilot will create a `manifest.yml` file in `copilot/svc-worker/` folder. This is the manifest file that we will configure in the next tasks.  
+- Wait until the process is finished
+
+At the end of the process, Copilot will create a `manifest.yml` file in `copilot/svc-worker/` folder. This is the manifest file that we will configure in the next tasks.  
   
 ```  
 Dockerfile: svc-worker-pdf/Dockerfile  
@@ -65,7 +65,9 @@ Recommended follow-up actions:
 In this task, you’ll learn how to add an environment variable into your service. We’re going to add a variable called `AWS_REGION` into `svc-worker`. In the first task, we’ve created the application along with the `svc-api` service. For every service initialized with Copilot, it will create a manifest file in this location `copilot/<SERVICE_NAME>/manifest.yaml`.  
   
 - Open `copilot/svc-worker/manifest.yml`  
-- Navigate to the end of the file and add following lines:  
+- Modify the manifest file
+
+Navigate to the end of the file and add following lines
   
 ```  
 environments:  
@@ -79,7 +81,9 @@ environments:
 As `svc-worker` is responsible to process the message published by `svc-api`. In the previous lab, we have configured the Amazon SNS Topic for `svc-api`. In this task, we are going to create an Amazon SQS Queue and subscribe to the Amazon SNS Topic.   
   
 - Open `copilot/svc-worker/manifest.yml`  
-- Navigate to the end of the file and add following lines:  
+- Modify the manifest file
+
+Navigate to the end of the file and add following lines:  
   
 ```  
 subscribe:  
@@ -96,8 +100,9 @@ In this task, you will need to evaluate the code on how that you can get the env
   
 This task requires NO action from your end. You only need to evaluate on how to use the environment variable so `svc-worker` can do polling to the queue and process the request.  
   
-1. Open `svc-worker-pdf/app.py`  
-2. In the beginning of the code, after imports, you will see following line:  
+- Open `svc-worker-pdf/app.py`  
+
+In the beginning of the code, after imports, you will see following line:  
   
 ```python  
 SQS_URI = os.getenv("COPILOT_QUEUE_URI")  
@@ -105,8 +110,9 @@ SQS_URI = os.getenv("COPILOT_QUEUE_URI")
   
 To retrieve the environment variable, we use the `os.getenv()` function.  
   
-4. Go to `receive_queue_message()` function  
-5. Evaluate following lines:  
+- Go to the `receive_queue_message()` function  
+
+Evaluate following lines:
   
 ```python  
 response = sqs_client.receive_message(  
@@ -115,8 +121,9 @@ response = sqs_client.receive_message(
   
 Above code allows us to retrieve the message published by the `svc-api`. For every message we received, SQS provides us with an attribute called `ReceiptHandle`. The `ReceiptHandle` is the identifier you must provide when deleting the message.  
   
-6. Go to `main` function  
-7. Evaluate following lines:  
+- Go to the `main` function  
+
+Evaluate following lines:  
   
 ```python  
 create_directory("/tmp/images/requests/")  
@@ -126,8 +133,9 @@ pdfkit.from_url(data['request_url'], fileoutput_path)
   
 Above lines are the routines to process the requested URL into a PDF. The application uses `pdfkit` library, a wrapper to `wkhtmltopdf`. You can refer to the Dockerfile in `svc-worker` to know more on including `wkhtmltopdf` into the container image.   
   
-6. Go to `delete_queue_message() `  
-7. Evaluate following lines:  
+- Go to `delete_queue_message() `  
+
+Evaluate following lines:  
   
 ```python  
 response = sqs_client.delete_message(QueueUrl=SQS_URI,  
@@ -174,14 +182,43 @@ What would you like to name this S3 Bucket? [? for help] s3-pdf-requests
   
 Upon deployment, Copilot will create an S3 bucket. In this context, it will be called as `S3PDFREQUESTS_NAME`.  
   
-## Task 6: Modify svc-worker to add Amazon S3 Bucket  
+## Task 6: Add an environment variable to svc-worker manifest
+
+The `svc-worker` requires a path to store the PDF files. For that, we need to add another environment variable to `svc-worker`. 
+
+- Open `copilot/svc-worker/manifest.yml`
+- Modify the manifest file
+
+Navigate to the environment variables for staging environment. You should have similar section as follows:
+  
+```  
+environments:  
+  staging:  
+    variables:  
+      AWS_REGION: ap-southeast-1  
+```  
+
+- Add the environment variable
+
+Now we need to add the environment variable, called "S3_KEY_OUTPUT_PROCESSED" with value `"processed/"`. The full environment variables section should look like below:
+
+```  
+environments:  
+  staging:  
+    variables:  
+      AWS_REGION: ap-southeast-1
+      S3_KEY_OUTPUT_PROCESSED: processed/
+```  
+
+## Task 7: Modify svc-worker to add Amazon S3 Bucket  
   
 In this task, you will need to evaluate the code on how that you can get the environment variable called `S3PDFREQUESTS_NAME` to retrieve the Amazon SQS Queue URI.   
   
 This task requires NO action from your end. You only need to evaluate on how to use the environment variable so `svc-worker` can do polling to the queue and process the request.  
   
-1. Open `svc-worker/app.py`  
-2. In the beginning of the code, after imports, you will see following line:  
+- Open `svc-worker/app.py`  
+
+In the beginning of the code, after imports, you will see following line:  
   
 ```python  
 S3_BUCKET = os.getenv("S3PDFREQUESTS_NAME")  
@@ -189,8 +226,9 @@ S3_BUCKET = os.getenv("S3PDFREQUESTS_NAME")
   
 To retrieve the environment variable, we use the `os.getenv()` function.  
   
-4. Go to `upload_to_s3()` function  
-5. Evaluate following lines:  
+- Go to `upload_to_s3()` function  
+
+Evaluate following lines:  
   
 ```python  
 filename = os.path.basename(filepath)  
@@ -203,8 +241,8 @@ url = s3_client.generate_presigned_url('get_object', ExpiresIn=3600, Params={'Bu
 ```  
 This is the function to upload the PDF (located in `/tmp`) folder. We also provide a secure way to upload the file by setting the `ServerSideEncryption`.   
 Once the file is successfully uploaded, we generate the URL so we can access it. In this case, the presigned URL is set to 3600 seconds. You are welcome to adjust this based on your needs.  
-  
-## Task 7: Add service discovery from svc-worker to svc-api  
+
+## Task 8: Add service discovery from svc-worker to svc-api  
   
 When `svc-worker` finished processing the request, it also requires to update the status of the request back to `svc-api`. To do this, we need to have the endpoint of `svc-api` so `svc-worker` able to call the API with HTTP protocol.   
   
@@ -213,16 +251,49 @@ The `svc-worker` can call the `svc-api` from the public address. However, that�
 Service Discovery is a way of letting services discover and connect with each other. Copilot leverages Amazon ECS Service Discovery feature and automatically created the variable called ` COPILOT_SERVICE_DISCOVERY_ENDPOINT` for each service. We can use this variable to call `svc-api` from `svc-worker`.   
   
 In this task, you’ll learn how to retrieve and call `svc-api` using the endpoint we retrieve from `COPILOT_SERVICE_DISCOVERY_ENDPOINT`.   
-  
-1. Open `source/svc-worker-pdf/app.py`  
-2. In the beginning of the code, after imports, you will see following line:  
+
+- Get the svc-api endpoint
+
+To get the svc-api service endpoint, we need to run run command `copilot svc show --name svc-api`. You'll find similar output as below:
+
+```
+Service Discovery
+
+  Environment       Namespace
+  -----------       ---------
+  staging           svc-api.staging.test-webtopdf.local:8081
+```
+
+Copy the endpoint, in this case `svc-api.staging.test-webtopdf.local:8081` as we need it for the next step. 
+
+- Open and modify manifest file: copilot/svc-worker/manifest.yml
+
+In this step, we are going to change the `svc-worker` manifest file to add the `svc-api` endpoint. You need to navigate to the environment variable section for staging environment and add an environment variable called `SVC_API_ENDPOINT`.
+
+The full environment variables section should look like below:
+
+```  
+environments:  
+  staging:  
+    variables:  
+      AWS_REGION: ap-southeast-1
+      S3_KEY_OUTPUT_PROCESSED: processed/
+      SVC_API_ENDPOINT: http://svc-api.staging.test-webtopdf.local:8081
+```  
+
+Now we have injected the endpoint for `svc_api`. In the next step, we need to configure the application to use the environment variable.
+
+- Open `source/svc-worker-pdf/app.py`  
+
+In the beginning of the code, after imports, you will see following line:  
   
 ```python  
 SVC_API_ENDPOINT = os.getenv("SVC_API_ENDPOINT")  
 ```  
   
-3. Go to ` update_request_status` function   
-4. Evaluate the code below:  
+- Go to the `update_request_status` function   
+
+Evaluate the code below:  
   
 ```python  
 req = requests.post("{}/status".format(SVC_API_ENDPOINT), json=data)  
@@ -230,7 +301,7 @@ req = requests.post("{}/status".format(SVC_API_ENDPOINT), json=data)
   
 As you see, once that we have the API endpoint for `svc-api`, we’re able to invoke the API endpoint as what we usually trigger any other APIs.  
   
-## Task 8: Deploy svc-worker to staging environment  
+## Task 9: Deploy svc-worker to staging environment  
   
 In this task, you’ll deploy the `svc-worker` into the `staging` environment. To deploy the `svc-worker`, you   
   
@@ -244,7 +315,7 @@ As we only have an environment, Copilot will automatically deploy to the `stagin
   
 This process requires roughly 6-8 mins to complete. It’s time to have a break ☕️.  
   
-## Task 9: Check the svc-worker environment  
+## Task 10: Check the svc-worker environment  
   
 In this task, you’ll learn how to get the details of the `svc-worker`. Once that you have the service deployed, you can see the details of the service by running `copilot svc show` command.   
   
@@ -280,7 +351,7 @@ Variables
   
 ## Next Lab  
   
-Click here to go to the next lab: [Lab 4: Testing Application`][1]  
+Click here to go to the next lab: [Lab 4: Testing Application][1]  
   
   
 [1]: https://github.com/donnieprakoso/workshop-copilot/tree/main/lab4-testing-app  
