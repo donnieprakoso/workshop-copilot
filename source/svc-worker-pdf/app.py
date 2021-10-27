@@ -38,10 +38,8 @@ def update_request_status(data):
 
 
 def upload_to_s3(filepath):
-    filename = os.path.basename(filepath)
+    key = os.path.basename(filepath)
     bucket = S3_BUCKET
-    key = os.path.join("/", filename)
-
     args = {'ServerSideEncryption': 'AES256'}
     s3_client = boto3.client("s3", region_name=AWS_REGION)
     s3_resp = s3_client.upload_file(filepath, bucket, key, ExtraArgs=args)
